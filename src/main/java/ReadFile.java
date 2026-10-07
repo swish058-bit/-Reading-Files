@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,32 +11,29 @@ public class ReadFile {
     }
 
     public ArrayList<Paragraph> getParagraphs() {
-    return paragraphs;
+        return paragraphs;
     }
 
-    public void readFile(String fname) throws IOException {
-        read(fname);
-    }
-    public void read(String fname) throws IOException {
+    private void read(String fname) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fname));
+
         Paragraph current = new Paragraph();
         String line;
 
         while ((line = br.readLine()) != null) {
-
-            if (!line.trim().isEmpty()) {
-                if(!current.getWords().isEmpty()) {
+            if (line.trim().isEmpty()) {
+                if (!current.getWords().isEmpty()) {
                     paragraphs.add(current);
                     current = new Paragraph();
                 }
-            }else{
+            } else {
                 current.addLine(line);
             }
         }
-        if(!current.getWords().isEmpty()) {
+        if (!current.getWords().isEmpty()) {
             paragraphs.add(current);
         }
+
         br.close();
     }
-
 }

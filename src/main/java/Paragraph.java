@@ -5,7 +5,6 @@ public class Paragraph {
 
     public void addLine(String line) {
         String[] splitWords = line.trim().split("\\s+");
-
         for (String word : splitWords) {
             if (!word.isEmpty()) {
                 words.add(word);
