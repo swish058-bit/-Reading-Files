@@ -7,6 +7,10 @@ import java.util.ArrayList;
 public class ReadFile {
     private ArrayList<Paragraph> paragraphs = new ArrayList<>();
 
+    public ReadFile(String fname) throws IOException {
+        read(fname);
+    }
+
     public ArrayList<Paragraph> getParagraphs() {
     return paragraphs;
     }
@@ -33,7 +37,7 @@ public class ReadFile {
         if(!current.getWords().isEmpty()) {
             paragraphs.add(current);
         }
-        reader.close();
+        br.close();
     }
 
 }
