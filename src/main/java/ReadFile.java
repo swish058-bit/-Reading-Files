@@ -5,25 +5,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ReadFile {
-    private ArrayList<String> lines;
-    public ArrayList<String> getLines() { return lines; }
-    public Boolean doReadFile(String fname) {
-        lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fname))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
+    private ArrayList<Paragraph> paragraphs = new ArrayList<>();
+
+    public ArrayList<Paragraph> getParagraphs() {
+    return paragraphs;
+    }
+
+    public void readFile(String fname) throws IOException {
+        read(fname);
+    }
+    public void read(String fname) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fname));
+        Paragraph current = new Paragraph();
+        String line;
+
+        while ((line = br.readLine()) != null) {
+
+            if (!line.trim().isEmpty()) {
+                if(!current.getWords().isEmpty()) {
+                    paragraphs.add(current);
+                    current = new Paragraph();
+                }
+            }else{
+                current.addLine(line);
             }
-            return true;
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
         }
-        return false;
-    }
-    private ReadFile() {}
-    public ReadFile(String fname) throws FileNotFoundException {
-        if (!doReadFile(fname)) {
-            throw new FileNotFoundException("Error reading file: " + fname);
+        if(!current.getWords().isEmpty()) {
+            paragraphs.add(current);
         }
+        reader.close();
     }
+
 }
